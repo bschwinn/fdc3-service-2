@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "allowJs": false,
+      "target": "es2017",
+      "noFallthroughCasesInSwitch": true,
+      "alwaysStrict": true,
+      "noImplicitAny": true,
+      "jsx": "react",
+      "forceConsistentCasingInFileNames": true,
+      "sourceMap": true,
+      "lib": [
+        "es2017",
+        "dom"
+      ]
+    },
+    "include": [
+      "fin.d.ts",
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ]
+}
