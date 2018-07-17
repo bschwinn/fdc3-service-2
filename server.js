@@ -5,7 +5,7 @@ const app = express();
 const path = require('path');
 const http = require('http');
 
-const appsConf  = path.resolve('./dist/demo/app.json');
+const appsConf  = path.resolve('./dist/demo/configs/app-launcher.json');
 
 const port = process.env.port || 3012
 

@@ -92,7 +92,6 @@ function createWebpackConfigForProvider() {
             plugins: [
                 new CopyWebpackPlugin([
                     { from: './src/ui', to: 'ui/' },
-                    { from: './src/demo', to: 'demo/', ignore: ['node_modules/**/*'] },
                     { from: './src/provider.html' }
                 ]),
                 new CopyWebpackPlugin([
