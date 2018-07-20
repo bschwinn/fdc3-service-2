@@ -33,7 +33,7 @@ export class PreferencesStore {
     }
 
     public getPreferredApp(sourceApp: ApplicationID, intent: fdc3.IntentType): ApplicationID|null {
-        var appPrefs: IntentPreferences = this.appIntentPrefs[sourceApp];
+        const appPrefs: IntentPreferences = this.appIntentPrefs[sourceApp];
         return (appPrefs && appPrefs[intent]) || this.globalPrefs[intent] || null;
     }
 
@@ -60,7 +60,7 @@ export class PreferencesStore {
     }
 
     public clearAppPreference(sourceApp: ApplicationID, intent: fdc3.IntentType): void {
-        let appPrefs: IntentPreferences = this.appIntentPrefs[sourceApp];
+        const appPrefs: IntentPreferences = this.appIntentPrefs[sourceApp];
 
         if (appPrefs) {
             delete appPrefs[sourceApp];

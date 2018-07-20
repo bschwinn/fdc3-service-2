@@ -89,9 +89,9 @@ We use a handful of NPM scripts to handle most of the typical tasks in a project
 
 ## Build
 
-The project is built and staged to the ./dist directory.  This directory is exactly what would be deployed to the production CDN.
+The project is built and staged to the ./build directory.  This directory is exactly what would be deployed to the production CDN.
 
-* dist
+* build
  * client.js - the compiled service client
  * demo/ - the demo files
  * provider.js - the compiled service provider

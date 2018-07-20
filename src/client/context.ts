@@ -9,9 +9,9 @@
 
 export interface Envelope<T extends Payload> {
     type: "fdc-context";
-    definition: "https://fdc3.org/context/1.0.0/",
-    version: string,
-    data: T[]
+    definition: "https://fdc3.org/context/1.0.0/";
+    version: string;
+    data: T[];
 }
 
 export interface Payload {

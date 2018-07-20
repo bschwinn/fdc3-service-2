@@ -1,21 +1,20 @@
 {
+    "extends": "./node_modules/gts/tsconfig-google.json",
     "compilerOptions": {
-      "allowJs": false,
-      "target": "es2017",
-      "noFallthroughCasesInSwitch": true,
-      "alwaysStrict": true,
-      "noImplicitAny": true,
-      "jsx": "react",
-      "forceConsistentCasingInFileNames": true,
-      "sourceMap": true,
-      "lib": [
-        "es2017",
-        "dom"
-      ]
+        "rootDir": ".",
+        "outDir": "build",
+        "jsx": "react",
+        "declaration": false,
+        "strict": false,
+        "lib": [
+            "es2016",
+            "dom"
+        ]
     },
     "include": [
-      "fin.d.ts",
-      "src/**/*.ts",
-      "src/**/*.tsx"
+        "src/*.ts",
+        "src/**/*.ts",
+        "test/*.ts",
+        "test/**/*.ts"
     ]
 }

@@ -50,11 +50,13 @@ export class MetadataStore {
      * @param uuid The UUID of an OpenFin application
      */
     public lookupFromAppUUID(uuid: string): IAppMetadata|null {
-        for(let directoryId in this.appData) {
-            let metadata: IAppMetadata = this.appData[directoryId];
+        for(const directoryId in this.appData) {
+            if (this.appData.hasOwnProperty(directoryId)) {
+                const metadata: IAppMetadata = this.appData[directoryId];
 
-            if (metadata.uuid == uuid) {
-                return metadata;
+                if (metadata.uuid === uuid) {
+                    return metadata;
+                }
             }
         }
 
@@ -70,7 +72,7 @@ export class MetadataStore {
      * @param directoryId The FDC3 app ID to map
      */
     public mapDirectoryId(directoryId: number): string|null {
-        let metadata = this.appData[directoryId];
+        const metadata = this.appData[directoryId];
 
         return (metadata && metadata.uuid) || null;
     }
@@ -83,7 +85,7 @@ export class MetadataStore {
      * @param uuid The application UUID to map
      */
     public mapUUID(uuid: string): number|null {
-        let metadata = this.lookupFromAppUUID(uuid);
+        const metadata = this.lookupFromAppUUID(uuid);
 
         return (metadata && metadata.directoryId) || null;
     }

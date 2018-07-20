@@ -8,7 +8,7 @@ module.exports = [{
         menu: './src/contextMenuPopup.tsx'
     },
     output: {
-        path: path.resolve(__dirname, '../../dist/demo'),
+        path: path.resolve(__dirname, '../../build/demo'),
         filename: '[name]-bundle.js'
     },
     resolve: {

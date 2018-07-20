@@ -42,13 +42,13 @@ export class AppDirectory {
 
     private async request(): Promise<IApplication[]> {
         return new Promise((resolve: (value: IApplication[]) => void, reject: (reason: Error) => void): void => {
-            var xhr: XMLHttpRequest = new XMLHttpRequest(),
-                response: IApplication[];
+            const xhr: XMLHttpRequest = new XMLHttpRequest();
+            let response: IApplication[];
 
             xhr.open("GET", AppDirectory.URL);
             xhr.responseType = "json";
             xhr.onreadystatechange = () => {
-                if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status >= 200 && xhr.status < 400) {
                         response = xhr.response;
 
@@ -64,7 +64,7 @@ export class AppDirectory {
                         reject(new Error("AppDirectory: Unexpected status (" + xhr.status + ")"));
                     }
                 }
-            }
+            };
             xhr.send();
         });
     }

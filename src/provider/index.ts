@@ -41,11 +41,11 @@ export const enum eDefaultAction {
 //Message definitions
 export interface IOpenArgs {
     name: string;
-    context?: any;
+    context?: any;  // tslint:disable-line
 }
 export interface IResolveArgs {
     intent: fdc3.IntentType;
-    context?: any;
+    context?: any;  // tslint:disable-line
 }
 export interface ISelectorResultArgs {
     handle: number;
@@ -168,8 +168,8 @@ class FDC3 {
     }
 
     private async onOpen(payload: IOpenArgs): Promise<void> {
-        let applications: IApplication[] = await this.directory.getApplications();
-        let requestedApp: IApplication = applications.find((app: IApplication) => app.name == payload.name);
+        const applications: IApplication[] = await this.directory.getApplications();
+        const requestedApp: IApplication = applications.find((app: IApplication) => app.name === payload.name);
 
         return new Promise<void>((resolve: ()=>void, reject: (reason: Error)=>void) => {
             if (requestedApp) {
@@ -181,7 +181,7 @@ class FDC3 {
     }
 
     private async onResolve(payload: IResolveArgs): Promise<IApplication[]> {
-        let applications: IApplication[] = await this.directory.getApplications();
+        const applications: IApplication[] = await this.directory.getApplications();
 
         if (payload.intent) {
             //Return all applications within the manifest that can handle the given intent
@@ -203,7 +203,7 @@ class FDC3 {
             applications = this.applyIntentPreferences(intent, applications, source);
         }
 
-        if (applications.length == 1) {
+        if (applications.length === 1) {
             //Return all applications within the manifest that can handle the given intent
             return this.onOpen({name: applications[0].name}).then(() => {
                 return this.sendIntent(intent, this.metadata.lookupFromDirectoryId(applications[0].id));
@@ -236,7 +236,7 @@ class FDC3 {
     private applyIntentPreferences(intent: fdc3.Intent, applications: IApplication[], source: fin.OpenFinIdentity): IApplication[] {
         //Check for any explicit target set within the intent
         if (intent.target) {
-            let preferredApplication: IApplication = applications.find((app: IApplication) => app.name == intent.target);
+            const preferredApplication: IApplication = applications.find((app: IApplication) => app.name === intent.target);
 
             if (preferredApplication) {
                 return [preferredApplication];
@@ -244,9 +244,9 @@ class FDC3 {
         }
 
         //Check for any user preferences
-        let preferredAppId: number = this.preferences.getPreferredApp(this.metadata.mapUUID(source.uuid), intent.intent);
+        const preferredAppId: number = this.preferences.getPreferredApp(this.metadata.mapUUID(source.uuid), intent.intent);
         if (applications.length > 1 && preferredAppId) {
-            let preferredApplication: IApplication = applications.find((app: IApplication) => app.id == preferredAppId);
+            const preferredApplication: IApplication = applications.find((app: IApplication) => app.id === preferredAppId);
 
             if (preferredApplication) {
                 //We found an applicable user preference, ignore the other applications
@@ -259,9 +259,9 @@ class FDC3 {
     }
 
     private onSelectorResult(result: ISelectorResultArgs): void {
-        let queuedIntent: IQueuedIntent = this.uiQueue[0];
+        const queuedIntent: IQueuedIntent = this.uiQueue[0];
 
-        if (queuedIntent && queuedIntent.handle == result.handle) {
+        if (queuedIntent && queuedIntent.handle === result.handle) {
             //Hide selector UI
             queuedIntent.selector.close();
 
@@ -276,6 +276,7 @@ class FDC3 {
                             this.preferences.setAppPreference(queuedIntent.source.directoryId, queuedIntent.intent.intent, result.app.id);
                         }
                         break;
+                    default:
                 }
 
                 //Open the selected application
@@ -302,13 +303,13 @@ class FDC3 {
      */
     private async openApplication(requestedApp: IApplication, context?: Payload): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            let metadata: IAppMetadata = this.metadata.lookupFromDirectoryId(requestedApp.id);
+            const metadata: IAppMetadata = this.metadata.lookupFromDirectoryId(requestedApp.id);
 
             this.isAppRunning(metadata && metadata.uuid).then((isRunning: boolean) => {
                 if (!isRunning) {
                     //Start application and pass context to it
                     this.startApplication(requestedApp, context).then(() => {
-                        resolve()
+                        resolve();
                     }, reject);
                 } else if (context) {
                     //Pass new context to existing application instance and focus
@@ -328,7 +329,7 @@ class FDC3 {
             if (appInfo) {
                 fin.desktop.Application.createFromManifest(appInfo.manifest_url, (app: fin.OpenFinApplication) => {
                     //Setup a timeout for the registration of an intent listener
-                    let timeout = setTimeout(() => {
+                    const timeout = setTimeout(() => {
                         console.warn("Timeout whilst waiting for application to start");
                         reject(new Error("Timeout whilst waiting for application to start: " + appInfo.name));
                     }, 5000);
@@ -350,7 +351,7 @@ class FDC3 {
                         clearTimeout(timeout);
                         reject(new Error(reason || "App startup failure"));
                     });
-                }, (reason: any) => {
+                }, (reason: string) => {
                     reject(new Error(reason));
                 });
             } else {
@@ -376,23 +377,23 @@ class FDC3 {
      * @param applications A pre-filtered list of applications that are capable of handling the intent
      */
     private async resolveIntent(intent: fdc3.Intent, source: fin.OpenFinIdentity, applications: IApplication[]): Promise<IApplication> {
-        let removeFromQueue = (intent: IQueuedIntent): void => {
-            let index: number = this.uiQueue.indexOf(intent);
+        const removeFromQueue = (intent: IQueuedIntent): void => {
+            const index: number = this.uiQueue.indexOf(intent);
 
             if (index >= 0) {
                 //Remove from queue
                 this.uiQueue.splice(index, 1);
 
                 //Trigger next item in queue
-                if (index == 0 && this.uiQueue.length > 0) {
+                if (index === 0 && this.uiQueue.length > 0) {
                     this.openAppSelector(this.uiQueue[0]);
                 }
             }
-        }
+        };
 
         return new Promise<IApplication>((resolve, reject) => {
             //Add to queue
-            let queuedIntent: IQueuedIntent = {
+            const queuedIntent: IQueuedIntent = {
                 handle: this.createHandle(),
                 intent,
                 source: this.metadata.lookupFromAppUUID(source.uuid),
@@ -410,7 +411,7 @@ class FDC3 {
             this.uiQueue.push(queuedIntent);
 
             //If not currently handling an intent, start processing immediately
-            if (this.uiQueue.length == 1) {
+            if (this.uiQueue.length === 1) {
                 this.openAppSelector(this.uiQueue[0]);
             }
         });
@@ -420,7 +421,7 @@ class FDC3 {
         const baseUrl:string = window.location.href.split('/').slice(0, -1).join('/');
         const appUrl:string = baseUrl + "/ui/selector.html";
         return new Promise<fin.OpenFinApplication>((resolve, reject) => {
-            let selector: fin.OpenFinApplication = new fin.desktop.Application({
+            const selector: fin.OpenFinApplication = new fin.desktop.Application({
                 uuid: "fdc3-selector",
                 name: "fdc3-selector",
                 url: appUrl,
@@ -465,9 +466,9 @@ class FDC3 {
     }
 
     private async isAppRunning(uuid: string): Promise<boolean> {
-        return new Promise<boolean>((resolve: (value: boolean)=>void, reject: (reason: any)=>void) => {
+        return new Promise<boolean>((resolve: (value: boolean)=>void, reject: (reason: string)=>void) => {
             fin.desktop.System.getAllApplications((applicationInfoList: fin.ApplicationInfo[]) => {
-                resolve(!!applicationInfoList.find((app: fin.ApplicationInfo) => app.uuid == uuid && app.isRunning));
+                resolve(!!applicationInfoList.find((app: fin.ApplicationInfo) => app.uuid === uuid && app.isRunning));
             }, reject);
         });
     }

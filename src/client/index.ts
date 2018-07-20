@@ -126,7 +126,7 @@ export class IntentListener {
      * Unsubscribe the listener object.
      */
     public unsubscribe(): boolean {
-        let index: number = intentListeners.indexOf(this);
+        const index: number = intentListeners.indexOf(this);
 
         if (index >= 0) {
             intentListeners.splice(index, 1);
@@ -152,7 +152,7 @@ export class ContextListener {
      * Unsubscribe the listener object.
      */
     public unsubscribe(): boolean {
-        let index: number = contextListeners.indexOf(this);
+        const index: number = contextListeners.indexOf(this);
 
         if (index >= 0) {
             contextListeners.splice(index, 1);
@@ -174,7 +174,7 @@ const contextListeners: ContextListener[] = [];
 
 fin.desktop.InterApplicationBus.subscribe("fdc3-service", "intent", (payload: Intent, uuid: string, name: string) => {
     intentListeners.forEach((listener: IntentListener) => {
-        if (payload.intent == listener.intent) {
+        if (payload.intent === listener.intent) {
             listener.handler(payload.context);
         }
     });
@@ -193,7 +193,7 @@ fin.desktop.InterApplicationBus.subscribe("fdc3-service", "context", (payload: C
  * 
  * @param reason Error object or description
  */
-function errorHandler(reason: any): never {
+function errorHandler(reason: string): never {
     //Re-throw error from service
     throw new Error(reason);
 }

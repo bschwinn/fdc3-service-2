@@ -7,7 +7,7 @@
  * in order to support this demo.
  */
 
- /**
+/**
  * Enum that defines the standard set of intents that are defined as part of the FDC3 specification.
  * 
  * This enum exists only as a helper, applications may define their own set of constants if they prefer.

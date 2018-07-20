@@ -8,7 +8,7 @@ function createWebpackConfigForProviderUI() {
             'ui': './src/provider/Selector.tsx'
         },
         output: {
-            path: path.resolve(__dirname, './dist/ui/pack'),
+            path: path.resolve(__dirname, './build/ui/pack'),
             filename: '[name]-bundle.js'
         },
         resolve: {
@@ -56,7 +56,7 @@ function createWebpackConfigForTS(infile, outfile) {
     return Object.assign({
         entry: infile,
         output: {
-            path: path.join(__dirname, "dist"),
+            path: path.join(__dirname, "build"),
             filename: outfile + '.js'
         },
         resolve: {
